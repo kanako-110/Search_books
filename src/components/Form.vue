@@ -1,16 +1,31 @@
 <template>
-	<div>Form</div>
-	<input class="input" type="text" placeholder="本を検索してみましょう" />
-	<button class="button">Search</button>
+	<form>
+		<input
+			class="input"
+			type="text"
+			v-model="text"
+			placeholder="本を検索してみましょう"
+		/>
+		<button class="button" @click.prevent="handleClick">Search</button>
+	</form>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
+import { ref } from 'vue';
 
 export default defineComponent({
 	name: 'Form',
-	setup() {
-		console.log('Form');
+	setup(_, context) {
+		const text = ref('');
+
+		const handleClick = computed(() => {
+			return context.emit('fetch-data', text.value);
+		});
+		return {
+			text,
+			handleClick,
+		};
 	},
 });
 </script>
