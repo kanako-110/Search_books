@@ -2,6 +2,13 @@
 	<div class="app">
 		<h1 class="title">Search Books</h1>
 		<Form />
+		<!-- TODO?: スタイリングなど大きくなったらCardをListに入れる、そこでSelectもいれる？ -->
+		<div class="select">
+			<select>
+				<option>関連順</option>
+				<option>新しい順</option>
+			</select>
+		</div>
 		<Card />
 	</div>
 </template>
