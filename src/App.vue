@@ -9,7 +9,7 @@
 				<option>新しい順</option>
 			</select>
 		</div>
-		<BookCard />
+		<BookCard v-for="book in data" :key="book.id" :book="book" />
 	</div>
 </template>
 
@@ -17,17 +17,35 @@
 import { defineComponent } from 'vue';
 import Form from './components/Form.vue';
 import BookCard from './components/BookCard.vue';
+import axios from 'axios';
+import { ref } from 'vue';
+
+// TODO: loading
 
 export default defineComponent({
 	name: 'App',
 	components: { Form, BookCard },
 	setup() {
+		const data = ref(undefined);
 		// TODO:  watch
-		const fetchData = (text: string) => {
+		// sortがnewだったらパラメーターにnewをいれる、関連だったらデフォルト
+		const fetchData = async (text: string) => {
 			console.log({ text });
+			await axios
+				.get(`https://www.googleapis.com/books/v1/volumes?q=${text}`)
+				.then((resp) => {
+					console.log(resp.data.items);
+					data.value = resp.data.items;
+				})
+				.catch((err) => {
+					// ユーザーにエラー表示
+					console.log(err);
+				});
 		};
+
 		return {
 			fetchData,
+			data,
 		};
 	},
 });
