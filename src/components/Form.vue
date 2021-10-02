@@ -19,9 +19,9 @@ export default defineComponent({
 	setup(_, context) {
 		const text = ref('');
 
-		const handleClick = computed(() => {
-			return context.emit('fetch-data', text.value);
-		});
+		const handleClick = () => {
+			return context.emit('button-click', text.value);
+		};
 		return {
 			text,
 			handleClick,
