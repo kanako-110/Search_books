@@ -1,7 +1,7 @@
 <template>
 	<div class="app">
 		<h1 class="title">Search Books</h1>
-		<Form :sort="sort" @button-click="fetchData" />
+		<Form @button-click="fetchData" :isLoading="isLoading" />
 		<!-- TODO?: スタイリングなど大きくなったらCardをListに入れる、そこでSelectもいれる？ -->
 		<div class="select">
 			<select v-model="sort">
@@ -38,11 +38,11 @@ export default defineComponent({
 		]);
 		const sort = ref<'relevance' | 'newest'>('relevance');
 		const userInput = ref('');
+		const isLoading = ref(false);
 
-		// TODO:  watch
-		// sortがnewだったらパラメーターにnewをいれる、関連だったらデフォルト
 		const fetchData = async (text: string) => {
 			console.log(sort.value);
+			isLoading.value = true;
 			userInput.value = text;
 			await axios
 				.get(
@@ -63,6 +63,7 @@ export default defineComponent({
 					// ユーザーにエラー表示
 					console.log(err);
 				});
+			isLoading.value = false;
 		};
 
 		watch(sort, () => fetchData(userInput.value));
@@ -72,6 +73,7 @@ export default defineComponent({
 			options,
 			sort,
 			fetchData,
+			isLoading,
 		};
 	},
 });

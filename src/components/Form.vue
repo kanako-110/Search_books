@@ -6,7 +6,12 @@
 			v-model="text"
 			placeholder="本を検索してみましょう"
 		/>
-		<button class="button" @click.prevent="handleClick">Search</button>
+		<button
+			:class="`button ${isLoading && `is-loading`}`"
+			@click.prevent="handleClick"
+		>
+			Search
+		</button>
 	</form>
 </template>
 
@@ -16,6 +21,9 @@ import { ref } from 'vue';
 
 export default defineComponent({
 	name: 'Form',
+	props: {
+		isLoading: Boolean,
+	},
 	setup(_, context) {
 		const text = ref('');
 
