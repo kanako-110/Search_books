@@ -1,16 +1,19 @@
 <template>
 	<div class="app has-text-centered">
 		<Header @button-click="fetchData" :isLoading="isLoading" />
-		<div class="mt-4">
+		<div class="my-4">
 			<SortBox @selection-change="setSortvalue" />
-		</div>
-		<div>
-			<EmptyResult v-if="noResult" />
-			<div
-				v-else
-				class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
-			>
-				<BookCard v-for="book in result" :key="book.id" :book="book" />
+			<!-- TODO: component化 -->
+			<div>
+				<div class="mt-5">
+					<EmptyResult v-if="noResult" />
+					<div
+						v-else
+						class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
+					>
+						<BookCard v-for="book in result" :key="book.id" :book="book" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -26,7 +29,6 @@ import { SortType } from './types';
 import Header from './components/Header.vue';
 import EmptyResult from './components/EmptyResult.vue';
 
-// TODO: 結果ない時
 export default defineComponent({
 	name: 'App',
 	components: { BookCard, SortBox, Header, EmptyResult },
