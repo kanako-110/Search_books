@@ -5,7 +5,12 @@
 				<!-- TODO: loadされるまでのplaeceholder -->
 				<!-- TODO: imageない時かり -->
 				<!-- lazy load? -->
-				<img :src="item.imageLinks.thumbnail" alt="book image" />
+				<img
+					:src="
+						item.imageLinks.thumbnail ?? require(`@/assets/images/noImg.png`)
+					"
+					alt="book image"
+				/>
 			</figure>
 		</div>
 		<div class="content">
@@ -43,6 +48,7 @@ export default defineComponent({
 		});
 
 		const authors = computed(() => {
+			if (!item.value.authors) return;
 			return item.value.authors.join(', ');
 		});
 
