@@ -6,7 +6,7 @@
 				<!-- TODO: imageない時かり -->
 				<!-- lazy load? -->
 				<img
-					:src="book.volumeInfo.imageLinks.thumbnail"
+					:src="item.imageLinks.thumbnail"
 					alt="book image"
 					class="is-fullheight"
 					style="objectFit: cover"
@@ -15,26 +15,41 @@
 		</div>
 		<div class="content">
 			<p>
-				書籍名: {{ book.volumeInfo.title }}
+				<a :href="item.infoLink" class="has-text-weight-bold">
+					{{ item.title }}
+				</a>
 				<br />
-				著者: {{ book.volumeInfo.authors ?? '記載なし' }}
+				<!-- かっこからだす -->
+				{{ authors ?? '記載なし' }}
 				<!-- ???カードであるべき？ -->
 				<br />
-				発行日: {{ book.volumeInfo.publishedDate }}
+				発行日: {{ item.publishedDate }}
 			</p>
-			<a :href="book.volumeInfo.infoLink">詳細</a>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { computed } from 'vue';
 
 // TODO: 一個上にlist?
 export default defineComponent({
 	name: 'Card',
 	props: {
-		book: Object,
+		book: Array,
+	},
+	setup(props) {
+		const item = computed(() => {
+			if (!props.book) return;
+			return props.book.volumeInfo;
+		});
+
+		const authors = computed(() => {
+			return item.value.authors.join(', ');
+		});
+
+		return { item, authors };
 	},
 });
 </script>

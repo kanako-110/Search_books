@@ -40,6 +40,7 @@ export default defineComponent({
 						'newest' && '&orderBy=newest'}`
 				)
 				.then((resp) => {
+					console.log(resp.data);
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
 					result.value = resp.data.items;
