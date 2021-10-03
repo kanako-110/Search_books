@@ -14,11 +14,10 @@
 					{{ item.title }}
 				</a>
 				<br />
-				<!-- かっこからだす -->
 				{{ authors ?? '記載なし' }}
-				<!-- ???カードであるべき？ -->
 				<br />
 				発行日: {{ item.publishedDate }}
+				{{ book.saleInfo.listPrice && price }}
 			</p>
 		</div>
 	</div>
@@ -47,7 +46,15 @@ export default defineComponent({
 			return item.value.authors.join(', ');
 		});
 
-		return { item, authors };
+		const price = computed(() => {
+			if (!props.book) return;
+			return (
+				props.book.saleInfo.listPrice.amount +
+				props.book.saleInfo.listPrice.currencyCode
+			);
+		});
+
+		return { item, authors, price };
 	},
 });
 </script>
