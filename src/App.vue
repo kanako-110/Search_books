@@ -1,20 +1,14 @@
 <template>
-	<div class="app">
-		<h1 class="title">Search Books</h1>
+	<div class="app m-5 has-text-centered">
+		<h1 class="title">Book Finder</h1>
 		<Form @button-click="fetchData" :isLoading="isLoading" />
 		<!-- TODO?: スタイリングなど大きくなったらCardをListに入れる、そこでSelectもいれる？ -->
-		<div class="select">
-			<select v-model="sort">
-				<option
-					:key="option.value"
-					v-for="option in options"
-					:value="option.value"
-				>
-					{{ option.label }}
-				</option>
-			</select>
+		<SortBox @selection-change="setSortvalue" />
+		<div
+			class="is-fullwidth is-flex is-justify-content-space-between is-flex-wrap-wrap"
+		>
+			<BookCard v-for="book in result" :key="book.id" :book="book" />
 		</div>
-		<BookCard v-for="book in result" :key="book.id" :book="book" />
 	</div>
 </template>
 
@@ -24,24 +18,20 @@ import Form from './components/Form.vue';
 import BookCard from './components/BookCard.vue';
 import axios from 'axios';
 import { ref, watch } from 'vue';
+import SortBox from './components/SortBox.vue';
+import { SortType } from './types';
 
-// TODO: loading
-
+// TODO: 結果ない時
 export default defineComponent({
 	name: 'App',
-	components: { Form, BookCard },
+	components: { Form, BookCard, SortBox },
 	setup() {
 		const result = ref(undefined);
-		const options = ref([
-			{ value: 'relevance', label: '関連順' },
-			{ value: 'newest', label: '新着順' },
-		]);
-		const sort = ref<'relevance' | 'newest'>('relevance');
+		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
 		const isLoading = ref(false);
 
 		const fetchData = async (text: string) => {
-			console.log(sort.value);
 			isLoading.value = true;
 			userInput.value = text;
 			await axios
@@ -50,11 +40,6 @@ export default defineComponent({
 						'newest' && '&orderBy=newest'}`
 				)
 				.then((resp) => {
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore
-					console.log(resp.data.items);
-
-					// // TODO; tsエラ⓪ー
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
 					result.value = resp.data.items;
@@ -68,12 +53,16 @@ export default defineComponent({
 
 		watch(sort, () => fetchData(userInput.value));
 
+		const setSortvalue = (value: SortType) => {
+			console.log('selection');
+			sort.value = value;
+		};
+
 		return {
 			result,
-			options,
-			sort,
 			fetchData,
 			isLoading,
+			setSortvalue,
 		};
 	},
 });

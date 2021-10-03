@@ -4,7 +4,7 @@
 			class="input"
 			type="text"
 			v-model="text"
-			placeholder="本を検索してみましょう"
+			placeholder="キーワードを入力"
 		/>
 		<button
 			:class="`button ${isLoading && `is-loading`}`"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { ref } from 'vue';
 
 export default defineComponent({
