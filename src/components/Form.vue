@@ -1,17 +1,19 @@
 <template>
 	<form>
-		<input
-			class="input"
-			type="text"
-			v-model="text"
-			placeholder="キーワードを入力"
-		/>
-		<button
-			:class="`button ${isLoading && `is-loading`}`"
-			@click.prevent="handleClick"
-		>
-			Search
-		</button>
+		<div class="is-flex">
+			<input
+				class="input"
+				type="text"
+				v-model="text"
+				placeholder="キーワードを入力"
+			/>
+			<button
+				:class="`button ${isLoading && `is-loading`} ml-4 is-danger`"
+				@click.prevent="handleClick"
+			>
+				Search
+			</button>
+		</div>
 	</form>
 </template>
 

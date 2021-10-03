@@ -1,20 +1,15 @@
 <template>
-	<div class="card m-3" style="width: 320px">
+	<div class="card p-1 my-4" style="width: 40%">
 		<div class="card-image">
-			<figure class="image is-3by2">
+			<figure class="image is-1by1">
 				<!-- TODO: loadされるまでのplaeceholder -->
 				<!-- TODO: imageない時かり -->
 				<!-- lazy load? -->
-				<img
-					:src="item.imageLinks.thumbnail"
-					alt="book image"
-					class="is-fullheight"
-					style="objectFit: cover"
-				/>
+				<img :src="item.imageLinks.thumbnail" alt="book image" />
 			</figure>
 		</div>
 		<div class="content">
-			<p>
+			<p class="is-size-7-mobile">
 				<a :href="item.infoLink" class="has-text-weight-bold">
 					{{ item.title }}
 				</a>
@@ -42,6 +37,9 @@ export default defineComponent({
 	setup(props) {
 		const item = computed(() => {
 			if (!props.book) return;
+			// TODO
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			return props.book.volumeInfo;
 		});
 

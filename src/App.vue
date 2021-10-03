@@ -1,11 +1,14 @@
 <template>
-	<div class="app m-5 has-text-centered">
-		<h1 class="title">Book Finder</h1>
+	<div class="app m-5  has-text-centered">
+		<h1 class="title is-1">Book Finder</h1>
 		<Form @button-click="fetchData" :isLoading="isLoading" />
+		<div class="mt-4">
+			<SortBox @selection-change="setSortvalue" />
+		</div>
+
 		<!-- TODO?: スタイリングなど大きくなったらCardをListに入れる、そこでSelectもいれる？ -->
-		<SortBox @selection-change="setSortvalue" />
 		<div
-			class="is-fullwidth is-flex is-justify-content-space-between is-flex-wrap-wrap"
+			class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
 		>
 			<BookCard v-for="book in result" :key="book.id" :book="book" />
 		</div>
