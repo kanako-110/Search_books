@@ -22,7 +22,7 @@ import { defineComponent } from 'vue';
 import { ref } from 'vue';
 
 export default defineComponent({
-	name: 'Form',
+	name: 'SearchForm',
 	props: {
 		isLoading: Boolean,
 	},

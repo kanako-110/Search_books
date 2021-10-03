@@ -1,12 +1,9 @@
 <template>
-	<div class="app m-5  has-text-centered">
-		<h1 class="title is-1">Book Finder</h1>
-		<Form @button-click="fetchData" :isLoading="isLoading" />
+	<div class="app has-text-centered">
+		<Header @button-click="fetchData" :isLoading="isLoading" />
 		<div class="mt-4">
 			<SortBox @selection-change="setSortvalue" />
 		</div>
-
-		<!-- TODO?: スタイリングなど大きくなったらCardをListに入れる、そこでSelectもいれる？ -->
 		<div
 			class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
 		>
@@ -17,17 +14,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Form from './components/Form.vue';
 import BookCard from './components/BookCard.vue';
 import axios from 'axios';
 import { ref, watch } from 'vue';
 import SortBox from './components/SortBox.vue';
 import { SortType } from './types';
+import Header from './components/Header.vue';
 
 // TODO: 結果ない時
 export default defineComponent({
 	name: 'App',
-	components: { Form, BookCard, SortBox },
+	components: { BookCard, SortBox, Header },
 	setup() {
 		const result = ref(undefined);
 		const sort = ref<SortType>('relevance');
@@ -67,6 +64,7 @@ export default defineComponent({
 			fetchData,
 			isLoading,
 			setSortvalue,
+			Header,
 		};
 	},
 });
@@ -74,4 +72,5 @@ export default defineComponent({
 
 <style lang="scss">
 @import '../node_modules/bulma/bulma.sass';
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
 </style>
