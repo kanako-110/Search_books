@@ -4,10 +4,14 @@
 		<div class="mt-4">
 			<SortBox @selection-change="setSortvalue" />
 		</div>
-		<div
-			class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
-		>
-			<BookCard v-for="book in result" :key="book.id" :book="book" />
+		<div>
+			<EmptyResult v-if="noResult" />
+			<div
+				v-else
+				class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
+			>
+				<BookCard v-for="book in result" :key="book.id" :book="book" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -20,16 +24,18 @@ import { ref, watch } from 'vue';
 import SortBox from './components/SortBox.vue';
 import { SortType } from './types';
 import Header from './components/Header.vue';
+import EmptyResult from './components/EmptyResult.vue';
 
 // TODO: 結果ない時
 export default defineComponent({
 	name: 'App',
-	components: { BookCard, SortBox, Header },
+	components: { BookCard, SortBox, Header, EmptyResult },
 	setup() {
 		const result = ref(undefined);
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
 		const isLoading = ref(false);
+		const noResult = ref(undefined);
 
 		const fetchData = async (text: string) => {
 			isLoading.value = true;
@@ -44,6 +50,9 @@ export default defineComponent({
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
 					result.value = resp.data.items;
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
+					noResult.value = resp.data.totalItems === 0;
 				})
 				.catch((err) => {
 					// ユーザーにエラー表示
@@ -59,12 +68,15 @@ export default defineComponent({
 			sort.value = value;
 		};
 
+		console.log(noResult.value);
+
 		return {
 			result,
 			fetchData,
 			isLoading,
 			setSortvalue,
 			Header,
+			noResult,
 		};
 	},
 });
