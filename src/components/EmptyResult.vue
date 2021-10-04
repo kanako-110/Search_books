@@ -16,8 +16,5 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
 	name: 'EmptyResult',
-	setup() {
-		console.log('AA');
-	},
 });
 </script>
