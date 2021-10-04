@@ -11,21 +11,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import EmptyResult from './EmptyResult.vue';
 import BookCard from './BookCard.vue';
+import { BooksType } from '../types/';
 
 export default defineComponent({
 	name: 'BookResult',
 	components: { EmptyResult, BookCard },
 	props: {
-		noResult: Boolean,
-		//  TODO: more specific type
-		response: Object,
+		response: Object as PropType<BooksType>,
 	},
 	setup(props) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
 		const result = computed(() => props.response && props.response.items);
 
 		const resultNumber = computed(

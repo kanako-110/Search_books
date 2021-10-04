@@ -19,10 +19,11 @@
 					{{ item.title }}
 				</a>
 				<br />
-				{{ authors ?? '記載なし' }}
+				{{ authors ?? '著者: 記載なし' }}
 				<br />
 				発行日: {{ item.publishedDate }}
-				{{ book.saleInfo.listPrice && price }}
+				<br />
+				{{ price ?? '価格: 記載なし' }}
 			</p>
 		</div>
 	</div>
@@ -30,30 +31,29 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { computed } from 'vue';
+import { computed, PropType } from 'vue';
+import { ItemType } from '../types';
 
-// TODO: 一個上にlist?
 export default defineComponent({
 	name: 'Card',
 	props: {
-		book: Array,
+		book: Object as PropType<ItemType>,
 	},
 	setup(props) {
 		const item = computed(() => {
 			if (!props.book) return;
-			// TODO
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
 			return props.book.volumeInfo;
 		});
 
 		const authors = computed(() => {
-			if (!item.value.authors) return;
-			return item.value.authors.join(', ');
+			if (!props.book) return;
+			if (!props.book.volumeInfo.authors) return;
+			return props.book.volumeInfo.authors.join(', ');
 		});
 
 		const price = computed(() => {
 			if (!props.book) return;
+			if (!props.book.saleInfo.listPrice) return;
 			return (
 				props.book.saleInfo.listPrice.amount +
 				props.book.saleInfo.listPrice.currencyCode

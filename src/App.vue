@@ -38,11 +38,8 @@ export default defineComponent({
 						'newest' && '&orderBy=newest'}`
 				)
 				.then((resp) => {
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore
+					console.log(resp.data);
 					response.value = resp.data;
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore
 				})
 				.catch((err) => {
 					// ユーザーにエラー表示
