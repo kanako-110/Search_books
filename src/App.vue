@@ -1,21 +1,21 @@
 <template>
 	<div class="app has-text-centered">
-		<Header @button-click="fetchData" :isLoading="isLoading" />
+		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="my-4">
 			<SortBox @selection-change="setSortValue" />
-			<BookResult :response="response" />
+			<BookResult :books="books" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import axios from 'axios';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import SortBox from './components/SortBox.vue';
 import { SortType } from './types';
 import Header from './components/Header.vue';
 import BookResult from './components/BookResult.vue';
+import { useGoogleBookApi } from './composables/useGoogleBookApi';
 
 // TODO: type errで検索できなくなる
 // waringたち
@@ -39,48 +39,30 @@ import BookResult from './components/BookResult.vue';
 // Sortボタンが、検索した後に出てきてもいいかも
 // pagination
 // totalNumberたちのわけかた・。propsでわたす方がよい、、
-// @app responseからbooksに変える
 
 export default defineComponent({
 	name: 'App',
 	components: { SortBox, Header, BookResult },
 	setup() {
-		const response = ref(undefined);
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
-		const isLoading = ref(false);
 
-		const fetchData = async (text: string) => {
-			isLoading.value = true;
+		const { books, loading, getBooks } = useGoogleBookApi(userInput, sort);
+
+		const handleBookSearch = (text: string) => {
 			userInput.value = text;
-			await axios
-				.get(
-					`https://www.googleapis.com/books/v1/volumes?q=${text}${sort.value ===
-						'newest' && '&orderBy=newest'}`
-				)
-				.then((resp) => {
-					console.log(resp.data);
-					response.value = resp.data;
-				})
-				.catch((err) => {
-					// ユーザーにエラー表示
-					console.log(err);
-				});
-			isLoading.value = false;
+			getBooks();
 		};
-
-		watch(sort, () => fetchData(userInput.value));
 
 		const setSortValue = (value: SortType) => {
 			sort.value = value;
 		};
 
 		return {
-			response,
-			fetchData,
-			isLoading,
+			books,
+			loading,
+			handleBookSearch,
 			setSortValue,
-			Header,
 		};
 	},
 });

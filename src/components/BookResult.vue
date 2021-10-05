@@ -19,16 +19,13 @@ import { BooksType } from '../types/';
 export default defineComponent({
 	name: 'BookResult',
 	components: { EmptyResult, BookCard },
-	// booksにかえる
 	props: {
-		response: Object as PropType<BooksType>,
+		books: Object as PropType<BooksType>,
 	},
 	setup(props) {
-		const result = computed(() => props.response && props.response.items);
+		const result = computed(() => props.books && props.books.items);
 
-		const resultNumber = computed(
-			() => props.response && props.response.totalItems
-		);
+		const resultNumber = computed(() => props.books && props.books.totalItems);
 		return { result, resultNumber };
 	},
 });

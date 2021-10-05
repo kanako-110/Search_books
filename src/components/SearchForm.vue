@@ -9,7 +9,7 @@
 			/>
 			<!-- e.prevent他の方法？毎回必要ってこと？ -->
 			<button
-				:class="`button ${isLoading && `is-loading`} ml-4 is-danger`"
+				:class="`button ${loading && `is-loading`} ml-4 is-danger`"
 				@click.prevent="handleClick"
 			>
 				Search
@@ -25,7 +25,7 @@ import { ref } from 'vue';
 export default defineComponent({
 	name: 'SearchForm',
 	props: {
-		isLoading: Boolean,
+		loading: Boolean,
 	},
 	setup(_, context) {
 		const text = ref('');
