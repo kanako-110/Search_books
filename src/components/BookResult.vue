@@ -19,6 +19,7 @@ import { BooksType } from '../types/';
 export default defineComponent({
 	name: 'BookResult',
 	components: { EmptyResult, BookCard },
+	// booksにかえる
 	props: {
 		response: Object as PropType<BooksType>,
 	},

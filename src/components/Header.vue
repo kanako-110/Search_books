@@ -8,7 +8,7 @@
 		<h1 class="title is-1" style="fontFamily: 'Merriweather', serif">
 			Book Finder
 		</h1>
-		<SearchForm @button-click="buttonClick" :isLoading="isLoading" />
+		<SearchForm v-bind="$attrs" :isLoading="isLoading" />
 	</div>
 </template>
 
@@ -21,15 +21,6 @@ export default defineComponent({
 	components: { SearchForm },
 	props: {
 		isLoading: Boolean,
-	},
-	setup(_, context) {
-		const buttonClick = (text: string) => {
-			context.emit('button-click', text);
-		};
-
-		return {
-			buttonClick,
-		};
 	},
 });
 </script>

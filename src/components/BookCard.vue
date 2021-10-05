@@ -7,7 +7,7 @@
 				<!-- lazy load? -->
 				<img
 					:src="
-						item.imageLinks.thumbnail ?? require(`@/assets/images/noImg.png`)
+						item.imageLinks?.thumbnail ?? require(`@/assets/images/noImg.png`)
 					"
 					alt="book image"
 				/>
@@ -41,8 +41,7 @@ export default defineComponent({
 	},
 	setup(props) {
 		const item = computed(() => {
-			if (!props.book) return;
-			return props.book.volumeInfo;
+			return props?.book?.volumeInfo;
 		});
 
 		const authors = computed(() => {
