@@ -22,8 +22,6 @@ import Header from './components/Header.vue';
 import BookResult from './components/BookResult.vue';
 import { useGoogleBookApi } from './composables/useGoogleBookApi';
 
-// skelton
-// https://codepen.io/abelhorihuela/pen/bZjrEW?css-preprocessor=scss
 // api fetch
 // https://v3.ja.vuejs.org/guide/composition-api-introduction.html#%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%88%E3%82%99%E3%82%A2%E3%83%AD%E3%83%B3%E3%81%AA-computed-%E3%83%95%E3%82%9A%E3%83%AD%E3%83%8F%E3%82%9A%E3%83%86%E3%82%A3
 
@@ -31,12 +29,9 @@ import { useGoogleBookApi } from './composables/useGoogleBookApi';
 // https://developers.google.com/books/docs/v1/using
 
 // waringたち
-// placeholder
 // fetchDataの場所（Formだとemitしまくる。emitのemitの仕方
 
 // console.log消す
-// Sortボタンが、検索した後に出てきてもいいかも
-// pagination
 
 export default defineComponent({
 	name: 'App',

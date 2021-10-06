@@ -3,27 +3,8 @@
 		<div class="card p-1 my-4" style="width: 100%">
 			<div class="card-image">
 				<figure class="image is-1by1">
-					<img
-						:src="
-							item.imageLinks?.thumbnail ?? require(`@/assets/images/noImg.png`)
-						"
-						alt="book image"
-					/>
+					<img v-lazy="src" alt="book image" />
 				</figure>
-				<!-- <div v-show="!isImgLoaded" class="skeleton">
-				<div class="columns">
-					<div class="column">
-						<article class="message">
-							<div class="message-header">
-								<p />
-							</div>
-							<div class="message-body">
-								<p />
-							</div>
-						</article>
-					</div>
-				</div>
-			</div> -->
 			</div>
 			<div class="content">
 				<p class="is-size-7-mobile">
@@ -43,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { computed, PropType } from 'vue';
 import { ItemType } from '../types';
 
@@ -54,22 +35,23 @@ export default defineComponent({
 		book: Object as PropType<ItemType>,
 	},
 	setup(props) {
-		// const isImgLoaded = ref(false);
-
 		const item = computed(() => {
 			return props?.book?.volumeInfo;
 		});
-
-		// const onImgLoad = () => {
-		// 	console.log('onImg');
-		// 	isImgLoaded.value = true;
-		// };
 
 		const authors = computed(() => {
 			if (!props.book) return;
 			if (!props.book.volumeInfo.authors) return;
 			return props.book.volumeInfo.authors.join(', ');
 		});
+
+		const src = computed(() => ({
+			src:
+				props.book?.volumeInfo?.imageLinks?.thumbnail ??
+				require(`@/assets/images/noImg.png`),
+			loading: require(`@/assets/images/loadingImg.png`),
+			error: require(`@/assets/images/noImg.png`),
+		}));
 
 		const price = computed(() => {
 			if (!props.book) return;
@@ -80,23 +62,7 @@ export default defineComponent({
 			);
 		});
 
-		return { item, authors, price };
+		return { item, authors, price, src };
 	},
 });
 </script>
-
-<style scoped>
-.message-header {
-	background-color: #e2e2e2;
-	animation: loading 0.5s infinite alternate;
-}
-
-@keyframes loading {
-	from {
-		background-color: #b8b3b3;
-	}
-	to {
-		background-color: hsl(0, 5%, 78%);
-	}
-}
-</style>
