@@ -1,5 +1,5 @@
 <template>
-	<div class="column is-flex is-two-fifths-mobile is-one-fifth-tablet">
+	<div class="column is-flex is-half-mobile is-one-fifth-tablet">
 		<div class="card p-1 my-4" style="width: 100%">
 			<div class="card-image">
 				<figure class="image is-1by1">
