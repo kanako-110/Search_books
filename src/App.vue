@@ -1,8 +1,7 @@
 <template>
 	<div class="app has-text-centered">
 		<Header @button-click="handleBookSearch" :loading="loading" />
-		<!-- 横の最低限のmargin -->
-		<div class="my-4">
+		<div class="my-5">
 			<SortBox @selection-change="setSortValue" />
 			<BookResult
 				:books="books"
@@ -23,9 +22,6 @@ import Header from './components/Header.vue';
 import BookResult from './components/BookResult.vue';
 import { useGoogleBookApi } from './composables/useGoogleBookApi';
 
-// TODO: type errで検索できなくなる
-// waringたち
-
 // skelton
 // https://codepen.io/abelhorihuela/pen/bZjrEW?css-preprocessor=scss
 // api fetch
@@ -34,10 +30,8 @@ import { useGoogleBookApi } from './composables/useGoogleBookApi';
 // data
 // https://developers.google.com/books/docs/v1/using
 
-// TODO: type errで検索できなくなる
 // waringたち
 // placeholder
-// overfetchしてないか
 // fetchDataの場所（Formだとemitしまくる。emitのemitの仕方
 
 // console.log消す

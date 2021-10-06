@@ -2,9 +2,10 @@
 	<div>
 		<ErrorResult v-if="error" />
 		<EmptyResult v-else-if="totalNumber === 0" />
+		<!-- TODO:わける？ -->
 		<div
 			v-else
-			class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
+			class="columns is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
 		>
 			<BookCard v-for="book in books" :key="book.id" :book="book" />
 		</div>
