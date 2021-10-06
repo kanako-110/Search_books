@@ -2,8 +2,8 @@
 	<div class="select">
 		<select v-model="sort" @change.prevent="handleChange">
 			<option
-				:key="option.value"
 				v-for="option in options"
+				:key="option.value"
 				:value="option.value"
 			>
 				{{ option.label }}
@@ -21,7 +21,6 @@ export default defineComponent({
 	name: 'SortBox',
 	setup(_, context) {
 		const sort = ref<SortType>('relevance');
-		// Typeと一緒において、一緒に変えれるようにするといいかも
 		const options = ref([
 			{ value: 'relevance', label: '関連順' },
 			{ value: 'newest', label: '新着順' },
