@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="p-5">
 		<img :src="require(`@/assets/images/noData.png`)" style="height: 320px" />
 		<p>
 			一致する検索結果はありません

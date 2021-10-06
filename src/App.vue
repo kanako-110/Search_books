@@ -2,7 +2,7 @@
 	<div class="app has-text-centered">
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="my-5">
-			<SortBox @selection-change="setSortValue" />
+			<SortBox v-show="books" @selection-change="setSortValue" />
 			<BookResult
 				:books="books"
 				:totalNumber="totalNumber"
