@@ -1,4 +1,4 @@
-# serrch_books
+# search_books
 
 ## Project setup
 ```
