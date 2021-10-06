@@ -1,32 +1,27 @@
 <template>
 	<div class="mt-5">
-		<EmptyResult v-if="resultNumber === 0" />
+		<EmptyResult v-if="totalNumber === 0" />
 		<div
 			v-else
 			class="is-fullwidth is-flex is-justify-content-space-around is-flex-wrap-wrap"
 		>
-			<BookCard v-for="book in result" :key="book.id" :book="book" />
+			<BookCard v-for="book in books" :key="book.id" :book="book" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import EmptyResult from './EmptyResult.vue';
 import BookCard from './BookCard.vue';
-import { BooksType } from '../types/';
+import { ItemType } from '../types/';
 
 export default defineComponent({
 	name: 'BookResult',
 	components: { EmptyResult, BookCard },
 	props: {
-		books: Object as PropType<BooksType>,
-	},
-	setup(props) {
-		const result = computed(() => props.books && props.books.items);
-
-		const resultNumber = computed(() => props.books && props.books.totalItems);
-		return { result, resultNumber };
+		books: Object as PropType<ItemType[]>,
+		totalNumber: Number,
 	},
 });
 </script>

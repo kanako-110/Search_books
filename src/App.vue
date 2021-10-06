@@ -3,7 +3,7 @@
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="my-4">
 			<SortBox @selection-change="setSortValue" />
-			<BookResult :books="books" />
+			<BookResult :books="books" :totalNumber="totalNumber" />
 		</div>
 	</div>
 </template>
@@ -34,11 +34,9 @@ import { useGoogleBookApi } from './composables/useGoogleBookApi';
 // overfetchしてないか
 // fetchDataの場所（Formだとemitしまくる。emitのemitの仕方
 
-// Todo: Appをpageとして、他に内容を置くのもあり
 // console.log消す
 // Sortボタンが、検索した後に出てきてもいいかも
 // pagination
-// totalNumberたちのわけかた・。propsでわたす方がよい、、
 
 export default defineComponent({
 	name: 'App',
@@ -47,11 +45,14 @@ export default defineComponent({
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
 
-		const { books, loading, getBooks } = useGoogleBookApi(userInput, sort);
+		const { books, totalNumber, loading, fetchBooks } = useGoogleBookApi(
+			userInput,
+			sort
+		);
 
 		const handleBookSearch = (text: string) => {
 			userInput.value = text;
-			getBooks();
+			fetchBooks();
 		};
 
 		const setSortValue = (value: SortType) => {
@@ -60,6 +61,7 @@ export default defineComponent({
 
 		return {
 			books,
+			totalNumber,
 			loading,
 			handleBookSearch,
 			setSortValue,

@@ -23,7 +23,7 @@ export interface ItemType {
 		};
 	};
 }
-export interface BooksType {
+export interface BooksApiType {
 	items: ItemType[];
 	totalItems: number;
 }
