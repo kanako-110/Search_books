@@ -1,13 +1,13 @@
 <template>
 	<div class="app has-text-centered">
 		<Header @button-click="handleBookSearch" :loading="loading" />
-		<div class="my-5">
+		<div class="m-5">
 			<SortBox v-show="books" @selection-change="setSortValue" />
 			<BookResult
 				:books="books"
 				:totalNumber="totalNumber"
 				:error="error"
-				class="mt-5 mx-5"
+				class="mt-5"
 			/>
 		</div>
 	</div>

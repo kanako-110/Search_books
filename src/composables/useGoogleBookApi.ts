@@ -28,12 +28,15 @@ export const useGoogleBookApi = (
 	const fetchBooks = async () => {
 		loading.value = true;
 		await axios
-			.get(
-				`https://www.googleapis.com/books/v1/volumes?q=${
-					text.value
-				}${sort.value === 'newest' && '&orderBy=newest'}`
-			)
+			.get('https://www.googleapis.com/books/v1/volumes', {
+				params: {
+					q: text.value,
+					orderBy: sort.value,
+					maxResults: 40,
+				},
+			})
 			.then((resp) => {
+				console.log(resp.data);
 				const data: BooksApiType = resp.data;
 				books.value = data.items;
 				totalNumber.value = data.totalItems;
