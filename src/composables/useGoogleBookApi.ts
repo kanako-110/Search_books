@@ -1,5 +1,5 @@
 import { BooksApiType, ItemType, SortType } from '@/types';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Ref, ref, watch } from 'vue';
 
 // TODO; type
@@ -7,7 +7,12 @@ interface ReturnType {
 	books: Ref<ItemType[] | undefined>;
 	totalNumber: Ref<number | undefined>;
 	loading: Ref<boolean>;
+	error: Ref<string | undefined>;
 	fetchBooks: () => Promise<void>;
+}
+
+interface IErrorResponse {
+	error: string;
 }
 
 // 命名
@@ -18,6 +23,7 @@ export const useGoogleBookApi = (
 	const books = ref<ItemType[] | undefined>(undefined);
 	const totalNumber = ref<number | undefined>(undefined);
 	const loading = ref(false);
+	const error = ref<string | undefined>(undefined);
 
 	const fetchBooks = async () => {
 		loading.value = true;
@@ -32,9 +38,9 @@ export const useGoogleBookApi = (
 				books.value = data.items;
 				totalNumber.value = data.totalItems;
 			})
-			.catch((err) => {
-				// ユーザーにエラー表示
-				console.log(err);
+			.catch((err: AxiosError<IErrorResponse>) => {
+				error.value = err.message;
+				console.error(err.message);
 			})
 			.finally(() => {
 				loading.value = false;
@@ -47,6 +53,7 @@ export const useGoogleBookApi = (
 		books,
 		totalNumber,
 		loading,
+		error,
 		fetchBooks,
 	};
 };

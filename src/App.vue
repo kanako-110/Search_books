@@ -1,9 +1,15 @@
 <template>
 	<div class="app has-text-centered">
 		<Header @button-click="handleBookSearch" :loading="loading" />
+		<!-- 横の最低限のmargin -->
 		<div class="my-4">
 			<SortBox @selection-change="setSortValue" />
-			<BookResult :books="books" :totalNumber="totalNumber" />
+			<BookResult
+				:books="books"
+				:totalNumber="totalNumber"
+				:error="error"
+				class="mt-5 mx-5"
+			/>
 		</div>
 	</div>
 </template>
@@ -45,7 +51,7 @@ export default defineComponent({
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
 
-		const { books, totalNumber, loading, fetchBooks } = useGoogleBookApi(
+		const { books, totalNumber, loading, error, fetchBooks } = useGoogleBookApi(
 			userInput,
 			sort
 		);
@@ -63,6 +69,7 @@ export default defineComponent({
 			books,
 			totalNumber,
 			loading,
+			error,
 			handleBookSearch,
 			setSortValue,
 		};
