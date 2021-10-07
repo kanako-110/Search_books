@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ErrorResult v-if="error || pageError" :label="label" />
+		<ErrorResult v-if="error || pageError" :label="errorLabel" />
 		<EmptyResult v-else-if="totalNumber === 0" />
 		<div
 			v-else
@@ -28,7 +28,7 @@ export default defineComponent({
 		pageError: Boolean,
 	},
 	setup(props) {
-		const label = computed(() => {
+		const errorLabel = computed(() => {
 			if (props.pageError) {
 				return '本の数が変わったようです。もう一度検索しなおしてください。';
 			}
@@ -38,7 +38,7 @@ export default defineComponent({
 			return null;
 		});
 
-		return { label };
+		return { errorLabel };
 	},
 });
 </script>

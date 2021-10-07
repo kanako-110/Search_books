@@ -51,17 +51,21 @@ export const useGoogleBookApi = (
 					},
 				})
 				.then((resp) => {
-					fetchedBooks[currentPage.value] = resp.data;
 					const data: BooksApiType = resp.data;
+					fetchedBooks[currentPage.value] = data;
 					books.value = data.items;
 					totalNumber.value = data.totalItems;
 					totalPages.value = Math.ceil(data.totalItems / perPage);
+
+					// apiの仕様上、fetchするたびに検索結果合計数(totalItems)が変わる。
+					// その際に起きる、新しいページを押すと本が存在しなくなっているエラーを検知する。
 					if (data.totalItems > 0 && !('items' in resp.data)) {
 						pageError.value = true;
 					}
 				})
 				.catch((err: AxiosError<IErrorResponse>) => {
 					console.error(err.message);
+					// 上記同様、新しいページを押すと本が存在しなくなっているエラーを検知する。
 					if (err.response?.status === 400) {
 						pageError.value = true;
 					} else {
