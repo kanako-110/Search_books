@@ -12,6 +12,7 @@
 					class="mt-5"
 				/>
 				<Pagination
+					:key="pageKey"
 					:totalPages="totalPages"
 					:currentPage="currentPage"
 					@click-new-page="handlePageClick"
@@ -47,6 +48,7 @@ export default defineComponent({
 			loading,
 			error,
 			pageError,
+			pageKey,
 			fetchBooks,
 			submitNewSearch,
 		} = useGoogleBookApi(userInput, sort, currentPage);
@@ -75,6 +77,7 @@ export default defineComponent({
 			pageError,
 			totalPages,
 			currentPage,
+			pageKey,
 			fetchBooks,
 			handleBookSearch,
 			setSortValue,

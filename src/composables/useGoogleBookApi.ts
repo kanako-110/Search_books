@@ -9,6 +9,7 @@ interface ReturnType {
 	error: Ref<boolean>;
 	pageError: Ref<boolean>;
 	totalPages: Ref<number>;
+	pageKey: Ref<number | undefined>;
 	fetchBooks: (currentPage?: number) => Promise<void>;
 	submitNewSearch: () => void;
 }
@@ -28,6 +29,7 @@ export const useGoogleBookApi = (
 	const error = ref(false);
 	const totalPages = ref<number>(0);
 	const pageError = ref(false);
+	const pageKey = ref<number | undefined>(undefined);
 	const perPage = 10;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const fetchedBooks: any = {};
@@ -75,6 +77,7 @@ export const useGoogleBookApi = (
 
 	const submitNewSearch = () => {
 		currentPage.value = 1;
+		pageKey.value = Math.floor(Math.random() * 10000);
 		for (const key in fetchedBooks) delete fetchedBooks[key];
 		error.value = false;
 		pageError.value = false;
@@ -89,6 +92,7 @@ export const useGoogleBookApi = (
 		error,
 		pageError,
 		totalPages,
+		pageKey,
 		fetchBooks,
 		submitNewSearch,
 	};
