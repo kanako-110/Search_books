@@ -6,7 +6,7 @@ interface ReturnType {
 	books: Ref<ItemType[] | undefined>;
 	totalNumber: Ref<number | undefined>;
 	loading: Ref<boolean>;
-	error: Ref<string | undefined>;
+	error: Ref<boolean>;
 	pageError: Ref<boolean>;
 	totalPages: Ref<number>;
 	fetchBooks: (currentPage?: number) => Promise<void>;
@@ -25,7 +25,7 @@ export const useGoogleBookApi = (
 	const books = ref<ItemType[] | undefined>(undefined);
 	const totalNumber = ref<number | undefined>(undefined);
 	const loading = ref(false);
-	const error = ref<string | undefined>(undefined);
+	const error = ref(false);
 	const totalPages = ref<number>(0);
 	const pageError = ref(false);
 	const perPage = 10;
@@ -35,10 +35,12 @@ export const useGoogleBookApi = (
 	const fetchBooks = async () => {
 		loading.value = true;
 		if (currentPage.value in fetchedBooks) {
+			console.log('すでにある');
 			books.value = fetchedBooks[currentPage.value].items;
 			totalNumber.value = fetchedBooks[currentPage.value].totalItems;
 			totalPages.value = Math.ceil(fetchedBooks.totalItems / perPage);
 		} else {
+			console.log('fetch');
 			await axios
 				.get('https://www.googleapis.com/books/v1/volumes', {
 					params: {
@@ -63,16 +65,20 @@ export const useGoogleBookApi = (
 					if (err.response?.status === 400) {
 						pageError.value = true;
 					} else {
-						error.value = err.message;
+						error.value = true;
 					}
 				});
 		}
+		console.log(fetchedBooks);
 		loading.value = false;
 	};
 
 	const submitNewSearch = () => {
 		currentPage.value = 1;
 		for (const key in fetchedBooks) delete fetchedBooks[key];
+		error.value = false;
+		pageError.value = false;
+
 		fetchBooks();
 	};
 
