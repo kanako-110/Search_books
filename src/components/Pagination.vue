@@ -1,12 +1,11 @@
 <template>
-	<!-- page上に -->
 	<div class="is-flex is-justify-content-center">
 		<v-pagination
 			v-model="currentPage"
 			:pages="totalPages"
 			:range-size="1"
 			active-color="#DCEDFF"
-			@update:modelValue="updateHandler"
+			@update:modelValue="updatePage"
 		/>
 	</div>
 </template>
@@ -25,14 +24,12 @@ export default defineComponent({
 	setup(_, context) {
 		const currentPage = ref(1);
 
-		// 命名
-		// currentPageの必要
-		const updateHandler = (page: number) => {
+		const updatePage = (page: number) => {
 			currentPage.value = page;
 			context.emit('click-new-page', page);
 		};
 
-		return { currentPage, updateHandler };
+		return { currentPage, updatePage };
 	},
 });
 </script>

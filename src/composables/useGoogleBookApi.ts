@@ -30,17 +30,15 @@ export const useGoogleBookApi = (
 	const pageError = ref(false);
 	const perPage = 10;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const booksData: any = {};
+	const fetchedBooks: any = {};
 
 	const fetchBooks = async () => {
-		if (currentPage.value in booksData) {
-			console.log('すでにある');
-			books.value = booksData[currentPage.value].items;
-			totalNumber.value = booksData[currentPage.value].totalItems;
-			totalPages.value = Math.ceil(booksData.totalItems / perPage);
-			loading.value = false;
+		loading.value = true;
+		if (currentPage.value in fetchedBooks) {
+			books.value = fetchedBooks[currentPage.value].items;
+			totalNumber.value = fetchedBooks[currentPage.value].totalItems;
+			totalPages.value = Math.ceil(fetchedBooks.totalItems / perPage);
 		} else {
-			console.log('fetch-booksData', booksData);
 			await axios
 				.get('https://www.googleapis.com/books/v1/volumes', {
 					params: {
@@ -51,37 +49,30 @@ export const useGoogleBookApi = (
 					},
 				})
 				.then((resp) => {
-					console.log(resp.data);
-					booksData[currentPage.value] = resp.data;
+					fetchedBooks[currentPage.value] = resp.data;
 					const data: BooksApiType = resp.data;
 					books.value = data.items;
 					totalNumber.value = data.totalItems;
-					totalPages.value = Math.ceil(data.totalItems / 10);
+					totalPages.value = Math.ceil(data.totalItems / perPage);
 					if (data.totalItems > 0 && !('items' in resp.data)) {
-						console.log('totalItem0以上なのに、itemsがない');
 						pageError.value = true;
 					}
 				})
 				.catch((err: AxiosError<IErrorResponse>) => {
 					console.error(err.message);
 					if (err.response?.status === 400) {
-						console.log('400');
 						pageError.value = true;
 					} else {
 						error.value = err.message;
 					}
-				})
-				.finally(() => {
-					console.log(booksData);
-					console.log(books.value);
-					loading.value = false;
 				});
 		}
+		loading.value = false;
 	};
 
 	const submitNewSearch = () => {
-		for (const key in booksData) delete booksData[key];
 		currentPage.value = 1;
+		for (const key in fetchedBooks) delete fetchedBooks[key];
 		fetchBooks();
 	};
 
