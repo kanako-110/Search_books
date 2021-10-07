@@ -9,6 +9,8 @@
 				:error="error"
 				class="mt-5"
 			/>
+			<!-- v-show -->
+			<Pagination :totalPages="totalPages" @click-new-page="fetchBooks" />
 		</div>
 	</div>
 </template>
@@ -21,20 +23,25 @@ import { SortType } from './types';
 import Header from './components/Header.vue';
 import BookResult from './components/BookResult.vue';
 import { useGoogleBookApi } from './composables/useGoogleBookApi';
+import Pagination from './components/Pagination.vue';
 
 // TODO: console.log消す
 
 export default defineComponent({
 	name: 'App',
-	components: { SortBox, Header, BookResult },
+	components: { SortBox, Header, BookResult, Pagination },
 	setup() {
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
 
-		const { books, totalNumber, loading, error, fetchBooks } = useGoogleBookApi(
-			userInput,
-			sort
-		);
+		const {
+			books,
+			totalNumber,
+			totalPages,
+			loading,
+			error,
+			fetchBooks,
+		} = useGoogleBookApi(userInput, sort);
 
 		const handleBookSearch = (text: string) => {
 			userInput.value = text;
@@ -50,6 +57,8 @@ export default defineComponent({
 			totalNumber,
 			loading,
 			error,
+			totalPages,
+			fetchBooks,
 			handleBookSearch,
 			setSortValue,
 		};
