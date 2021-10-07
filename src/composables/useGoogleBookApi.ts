@@ -7,6 +7,7 @@ interface ReturnType {
 	totalNumber: Ref<number | undefined>;
 	loading: Ref<boolean>;
 	error: Ref<string | undefined>;
+	pageError: Ref<boolean>;
 	totalPages: Ref<number>;
 	fetchBooks: (currentPage?: number) => Promise<void>;
 }
@@ -24,27 +25,40 @@ export const useGoogleBookApi = (
 	const loading = ref(false);
 	const error = ref<string | undefined>(undefined);
 	const totalPages = ref<number>(0);
+	const pageError = ref(false);
+	const perPage = 10;
 
 	const fetchBooks = async (currentPage = 1) => {
 		loading.value = true;
+		console.log('fetch');
 		await axios
 			.get('https://www.googleapis.com/books/v1/volumes', {
 				params: {
 					q: text.value,
 					orderBy: sort.value,
-					maxResults: 10,
-					startIndex: (currentPage - 1) * 10,
+					maxResults: perPage,
+					startIndex: (currentPage - 1) * perPage,
 				},
 			})
 			.then((resp) => {
+				console.log(resp.data);
 				const data: BooksApiType = resp.data;
 				books.value = data.items;
 				totalNumber.value = data.totalItems;
-				totalPages.value = Math.ceil(data.totalItems / 40);
+				totalPages.value = Math.ceil(data.totalItems / perPage);
+				if (data.totalItems > 0 && !('items' in resp.data)) {
+					console.log('totalItem0以上なのに、itemsがない');
+					pageError.value = true;
+				}
 			})
 			.catch((err: AxiosError<IErrorResponse>) => {
-				error.value = err.message;
 				console.error(err.message);
+				if (err.response?.status === 400) {
+					console.log('400');
+					pageError.value = true;
+				} else {
+					error.value = err.message;
+				}
 			})
 			.finally(() => {
 				loading.value = false;
@@ -62,6 +76,7 @@ export const useGoogleBookApi = (
 		totalNumber,
 		loading,
 		error,
+		pageError,
 		totalPages,
 		fetchBooks,
 	};

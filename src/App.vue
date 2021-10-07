@@ -3,14 +3,20 @@
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="m-5">
 			<SortBox v-show="books" @selection-change="setSortValue" />
-			<BookResult
-				:books="books"
-				:totalNumber="totalNumber"
-				:error="error"
-				class="mt-5"
-			/>
-			<!-- v-show -->
-			<Pagination :totalPages="totalPages" @click-new-page="fetchBooks" />
+			<div v-show="totalNumber">
+				<BookResult
+					:books="books"
+					:totalNumber="totalNumber"
+					:error="error"
+					:pageError="pageError"
+					class="mt-5"
+				/>
+				<Pagination
+					:totalPages="totalPages"
+					@click-new-page="fetchBooks"
+					class="mt-3"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -38,6 +44,7 @@ export default defineComponent({
 			totalPages,
 			loading,
 			error,
+			pageError,
 			fetchBooks,
 		} = useGoogleBookApi(userInput, sort);
 
@@ -55,6 +62,7 @@ export default defineComponent({
 			totalNumber,
 			loading,
 			error,
+			pageError,
 			totalPages,
 			fetchBooks,
 			handleBookSearch,
