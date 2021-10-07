@@ -13,7 +13,8 @@
 				/>
 				<Pagination
 					:totalPages="totalPages"
-					@click-new-page="fetchBooks"
+					:currentPage="currentPage"
+					@click-new-page="handlePageClick"
 					class="mt-3"
 				/>
 			</div>
@@ -37,6 +38,7 @@ export default defineComponent({
 	setup() {
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
+		const currentPage = ref(1);
 
 		const {
 			books,
@@ -46,15 +48,23 @@ export default defineComponent({
 			error,
 			pageError,
 			fetchBooks,
-		} = useGoogleBookApi(userInput, sort);
+			submitNewSearch,
+		} = useGoogleBookApi(userInput, sort, currentPage);
 
-		const handleBookSearch = (text: string) => {
-			userInput.value = text;
+		const handlePageClick = (page: number) => {
+			currentPage.value = page;
 			fetchBooks();
 		};
 
+		const handleBookSearch = (text: string) => {
+			userInput.value = text;
+			submitNewSearch();
+		};
+
+		// 命名
 		const setSortValue = (value: SortType) => {
 			sort.value = value;
+			submitNewSearch();
 		};
 
 		return {
@@ -64,9 +74,11 @@ export default defineComponent({
 			error,
 			pageError,
 			totalPages,
+			currentPage,
 			fetchBooks,
 			handleBookSearch,
 			setSortValue,
+			handlePageClick,
 		};
 	},
 });
