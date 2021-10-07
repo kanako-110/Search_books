@@ -7,7 +7,6 @@
 				v-model="text"
 				placeholder="キーワードを入力"
 			/>
-			<!-- e.prevent他の方法？毎回必要ってこと？ -->
 			<button
 				:class="`button ${loading && `is-loading`} ml-4 is-danger`"
 				@click.prevent="handleClick"

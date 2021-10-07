@@ -8,7 +8,6 @@
 		<h1 class="title is-1" style="fontFamily: 'Merriweather', serif">
 			Book Finder
 		</h1>
-		<!-- loding passの仕方 -->
 		<SearchForm v-bind="$attrs" :loading="loading" />
 	</div>
 </template>

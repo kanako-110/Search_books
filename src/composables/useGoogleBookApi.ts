@@ -2,7 +2,6 @@ import { BooksApiType, ItemType, SortType } from '@/types';
 import axios, { AxiosError } from 'axios';
 import { Ref, ref, watch } from 'vue';
 
-// TODO; type
 interface ReturnType {
 	books: Ref<ItemType[] | undefined>;
 	totalNumber: Ref<number | undefined>;
@@ -15,7 +14,6 @@ interface IErrorResponse {
 	error: string;
 }
 
-// 命名
 export const useGoogleBookApi = (
 	text: Ref<string>,
 	sort: Ref<SortType>
@@ -36,7 +34,6 @@ export const useGoogleBookApi = (
 				},
 			})
 			.then((resp) => {
-				console.log(resp.data);
 				const data: BooksApiType = resp.data;
 				books.value = data.items;
 				totalNumber.value = data.totalItems;

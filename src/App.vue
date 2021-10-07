@@ -22,8 +22,6 @@ import Header from './components/Header.vue';
 import BookResult from './components/BookResult.vue';
 import { useGoogleBookApi } from './composables/useGoogleBookApi';
 
-// TODO: console.log消す
-
 export default defineComponent({
 	name: 'App',
 	components: { SortBox, Header, BookResult },
