@@ -37,12 +37,10 @@ export const useGoogleBookApi = (
 	const fetchBooks = async () => {
 		loading.value = true;
 		if (currentPage.value in fetchedBooks) {
-			console.log('すでにある');
 			books.value = fetchedBooks[currentPage.value].items;
 			totalNumber.value = fetchedBooks[currentPage.value].totalItems;
 			totalPages.value = Math.ceil(fetchedBooks.totalItems / perPage);
 		} else {
-			console.log('fetch');
 			await axios
 				.get('https://www.googleapis.com/books/v1/volumes', {
 					params: {
@@ -71,7 +69,6 @@ export const useGoogleBookApi = (
 					}
 				});
 		}
-		console.log(fetchedBooks);
 		loading.value = false;
 	};
 

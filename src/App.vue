@@ -2,7 +2,7 @@
 	<div class="app has-text-centered">
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="m-5">
-			<SortBox v-show="books" @selection-change="setSortValue" />
+			<SortBox v-show="books" @selection-change="handleSortChange" />
 			<div v-show="totalNumber">
 				<BookResult
 					:books="books"
@@ -63,8 +63,7 @@ export default defineComponent({
 			submitNewSearch();
 		};
 
-		// 命名
-		const setSortValue = (value: SortType) => {
+		const handleSortChange = (value: SortType) => {
 			sort.value = value;
 			submitNewSearch();
 		};
@@ -80,7 +79,7 @@ export default defineComponent({
 			pageKey,
 			fetchBooks,
 			handleBookSearch,
-			setSortValue,
+			handleSortChange,
 			handlePageClick,
 		};
 	},

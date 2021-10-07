@@ -28,7 +28,6 @@ export default defineComponent({
 		pageError: Boolean,
 	},
 	setup(props) {
-		// TODO: エラー後の検索
 		const label = computed(() => {
 			if (props.pageError) {
 				return '本の数が変わったようです。もう一度検索しなおしてください。';
