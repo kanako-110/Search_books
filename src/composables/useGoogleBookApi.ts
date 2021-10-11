@@ -30,7 +30,7 @@ export const useGoogleBookApi = (
 	const totalPages = ref<number>(0);
 	const pageError = ref(false);
 	const pageKey = ref<number | undefined>(undefined);
-	const perPage = 10;
+	const perPage = 30;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const fetchedBooks: any = {};
 
