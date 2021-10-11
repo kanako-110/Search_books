@@ -5,6 +5,7 @@
 			<SortBox v-show="books" @selection-change="handleSortChange" />
 			<div v-show="totalNumber">
 				<Pagination
+					ref="topPagination"
 					:key="pageKey"
 					:totalPages="totalPages"
 					:currentPage="currentPage"
@@ -19,6 +20,7 @@
 					class="mt-5"
 				/>
 				<Pagination
+					ref="bottomPagination"
 					:key="pageKey"
 					:totalPages="totalPages"
 					:currentPage="currentPage"
@@ -47,7 +49,8 @@ export default defineComponent({
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
 		const currentPage = ref(1);
-
+		const topPagination = ref<InstanceType<typeof Pagination>>();
+		const bottomPagination = ref<InstanceType<typeof Pagination>>();
 		const {
 			books,
 			totalNumber,
@@ -61,7 +64,13 @@ export default defineComponent({
 		} = useGoogleBookApi(userInput, sort, currentPage);
 
 		const handlePageClick = (page: number) => {
+			console.log('currentPage', currentPage.value);
+			console.log({ page });
+			if (page === currentPage.value) return;
 			currentPage.value = page;
+			topPagination.value?.updatePage(page);
+			bottomPagination.value?.updatePage(page);
+
 			fetchBooks();
 		};
 
@@ -90,6 +99,8 @@ export default defineComponent({
 			handleBookSearch,
 			handleSortChange,
 			handlePageClick,
+			topPagination,
+			bottomPagination,
 		};
 	},
 });
