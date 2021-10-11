@@ -4,6 +4,13 @@
 		<div class="m-5">
 			<SortBox v-show="books" @selection-change="handleSortChange" />
 			<div v-show="totalNumber">
+				<Pagination
+					:key="pageKey"
+					:totalPages="totalPages"
+					:currentPage="currentPage"
+					@click-new-page="handlePageClick"
+					class="mt-5"
+				/>
 				<BookResult
 					:books="books"
 					:totalNumber="totalNumber"
@@ -16,7 +23,7 @@
 					:totalPages="totalPages"
 					:currentPage="currentPage"
 					@click-new-page="handlePageClick"
-					class="mt-3"
+					class="mt-5"
 				/>
 			</div>
 		</div>
@@ -67,6 +74,8 @@ export default defineComponent({
 			sort.value = value;
 			submitNewSearch();
 		};
+
+		console.log({ currentPage });
 
 		return {
 			books,

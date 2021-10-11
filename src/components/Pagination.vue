@@ -26,6 +26,7 @@ export default defineComponent({
 
 		const updatePage = (page: number) => {
 			currentPage.value = page;
+			console.log({ currentPage });
 			context.emit('click-new-page', page);
 		};
 
