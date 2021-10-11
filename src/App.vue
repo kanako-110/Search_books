@@ -2,13 +2,23 @@
 	<div class="app has-text-centered">
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="m-5">
-			<SortBox v-show="books" @selection-change="setSortValue" />
-			<BookResult
-				:books="books"
-				:totalNumber="totalNumber"
-				:error="error"
-				class="mt-5"
-			/>
+			<SortBox v-show="books" @selection-change="handleSortChange" />
+			<div v-show="totalNumber">
+				<BookResult
+					:books="books"
+					:totalNumber="totalNumber"
+					:error="error"
+					:pageError="pageError"
+					class="mt-5"
+				/>
+				<Pagination
+					:key="pageKey"
+					:totalPages="totalPages"
+					:currentPage="currentPage"
+					@click-new-page="handlePageClick"
+					class="mt-3"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -21,26 +31,41 @@ import { SortType } from './types';
 import Header from './components/Header.vue';
 import BookResult from './components/BookResult.vue';
 import { useGoogleBookApi } from './composables/useGoogleBookApi';
+import Pagination from './components/Pagination.vue';
 
 export default defineComponent({
 	name: 'App',
-	components: { SortBox, Header, BookResult },
+	components: { SortBox, Header, BookResult, Pagination },
 	setup() {
 		const sort = ref<SortType>('relevance');
 		const userInput = ref('');
+		const currentPage = ref(1);
 
-		const { books, totalNumber, loading, error, fetchBooks } = useGoogleBookApi(
-			userInput,
-			sort
-		);
+		const {
+			books,
+			totalNumber,
+			totalPages,
+			loading,
+			error,
+			pageError,
+			pageKey,
+			fetchBooks,
+			submitNewSearch,
+		} = useGoogleBookApi(userInput, sort, currentPage);
 
-		const handleBookSearch = (text: string) => {
-			userInput.value = text;
+		const handlePageClick = (page: number) => {
+			currentPage.value = page;
 			fetchBooks();
 		};
 
-		const setSortValue = (value: SortType) => {
+		const handleBookSearch = (text: string) => {
+			userInput.value = text;
+			submitNewSearch();
+		};
+
+		const handleSortChange = (value: SortType) => {
 			sort.value = value;
+			submitNewSearch();
 		};
 
 		return {
@@ -48,8 +73,14 @@ export default defineComponent({
 			totalNumber,
 			loading,
 			error,
+			pageError,
+			totalPages,
+			currentPage,
+			pageKey,
+			fetchBooks,
 			handleBookSearch,
-			setSortValue,
+			handleSortChange,
+			handlePageClick,
 		};
 	},
 });

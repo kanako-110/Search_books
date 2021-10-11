@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ErrorResult v-if="error" />
+		<ErrorResult v-if="error || pageError" :label="errorLabel" />
 		<EmptyResult v-else-if="totalNumber === 0" />
 		<div
 			v-else
@@ -12,11 +12,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import EmptyResult from './EmptyResult.vue';
 import BookCard from './BookCard.vue';
 import { ItemType } from '../types/';
-import ErrorResult from './ErrorResult.vue';
+import ErrorResult from './molecules/ErrorResult.vue';
 
 export default defineComponent({
 	name: 'BookResult',
@@ -25,6 +25,20 @@ export default defineComponent({
 		books: Object as PropType<ItemType[]>,
 		totalNumber: Number,
 		error: String,
+		pageError: Boolean,
+	},
+	setup(props) {
+		const errorLabel = computed(() => {
+			if (props.pageError) {
+				return '本の数が変わったようです。もう一度検索しなおしてください。';
+			}
+			if (props.error) {
+				return 'もう一度試すか、ネットワークの環境をお確かめください。';
+			}
+			return null;
+		});
+
+		return { errorLabel };
 	},
 });
 </script>
