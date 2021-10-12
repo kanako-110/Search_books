@@ -3,20 +3,19 @@
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="m-5">
 			<SortBox v-show="books" @selection-change="handleSortChange" />
-			<div v-show="totalNumber">
+			<div v-show="totalNumber" class="mt-4">
 				<Pagination
 					:key="pageKey"
 					:totalPages="totalPages"
 					:currentPage="currentPage"
 					@click-new-page="handlePageClick"
-					class="mt-3"
 				>
 					<BookResult
 						:books="books"
 						:totalNumber="totalNumber"
 						:error="error"
 						:pageError="pageError"
-						class="mt-5"
+						class="mt-3"
 					/>
 				</Pagination>
 			</div>
