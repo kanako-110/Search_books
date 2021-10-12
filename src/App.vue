@@ -3,7 +3,7 @@
 		<Header @button-click="handleBookSearch" :loading="loading" />
 		<div class="m-5">
 			<SortBox v-show="books" @selection-change="handleSortChange" />
-			<div v-show="totalNumber" class="mt-4">
+			<div v-show="totalNumber >= 0" class="mt-4">
 				<Pagination
 					:key="pageKey"
 					:totalPages="totalPages"

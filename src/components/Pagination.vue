@@ -1,5 +1,6 @@
 <template>
 	<v-pagination
+		v-if="totalPages > 0"
 		v-model="currentPage"
 		:pages="totalPages"
 		:range-size="1"
@@ -11,6 +12,7 @@
 		<slot>Book Result</slot>
 	</div>
 	<v-pagination
+		v-if="totalPages > 0"
 		v-model="currentPage"
 		:pages="totalPages"
 		:range-size="1"
