@@ -1,13 +1,24 @@
 <template>
-	<div class="is-flex is-justify-content-center">
-		<v-pagination
-			v-model="currentPage"
-			:pages="totalPages"
-			:range-size="1"
-			active-color="#DCEDFF"
-			@update:modelValue="updatePage"
-		/>
+	<!-- <div class="is-flex is-justify-content-center"> -->
+	<v-pagination
+		v-model="currentPage"
+		:pages="totalPages"
+		:range-size="1"
+		active-color="#DCEDFF"
+		@update:modelValue="updatePage"
+		class="is-flex is-justify-content-center"
+	/>
+	<div>
+		<slot>Book Result</slot>
 	</div>
+	<v-pagination
+		v-model="currentPage"
+		:pages="totalPages"
+		:range-size="1"
+		active-color="#DCEDFF"
+		@update:modelValue="updatePage"
+		class="is-flex is-justify-content-center"
+	/>
 </template>
 
 <script lang="ts">
